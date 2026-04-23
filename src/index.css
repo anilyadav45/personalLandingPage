@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #f0f4ff;
+    --bg-secondary: #e8edf8;
+    --bg-panel: #ffffff;
+    --text-primary: #0a0d1a;
+    --text-secondary: #374151;
+    --text-muted: #6b7280;
+    --border-color: #d1d9f0;
+    --accent: #7c3aed;
+    --accent-2: #06b6d4;
+    --glow-color: rgba(124, 58, 237, 0.15);
+  }
+
+  .dark {
+    --bg-primary: #020308;
+    --bg-secondary: #0a0d1a;
+    --bg-panel: #0f1424;
+    --text-primary: #f0f4ff;
+    --text-secondary: #a8b4d8;
+    --text-muted: #6b7a9e;
+    --border-color: #1a2040;
+    --accent: #00f5d4;
+    --accent-2: #7c3aed;
+    --glow-color: rgba(0, 245, 212, 0.1);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* Selection */
+  ::selection {
+    background: var(--accent);
+    color: var(--bg-primary);
+  }
+}
+
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 50%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-light {
+    background: linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-border {
+    box-shadow: 0 0 0 1px var(--border-color), 0 0 30px var(--glow-color);
+  }
+
+  .btn-primary {
+    @apply relative overflow-hidden px-8 py-3 rounded-full font-display font-semibold text-sm tracking-wider transition-all duration-300;
+    background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+    color: var(--bg-primary);
+    box-shadow: 0 0 30px var(--glow-color);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 40px var(--glow-color);
+  }
+
+  .btn-secondary {
+    @apply relative overflow-hidden px-8 py-3 rounded-full font-display font-semibold text-sm tracking-wider transition-all duration-300;
+    background: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px var(--glow-color);
+  }
+
+  .section-label {
+    @apply font-mono text-xs tracking-[0.3em] uppercase;
+    color: var(--accent);
+  }
+
+  .card-hover {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  }
+
+  .card-hover:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), 0 0 40px var(--glow-color);
+  }
+}
+
+/* Noise texture overlay */
+.noise::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.4;
+}
+
+/* Animated gradient border */
+@keyframes borderRotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.border-gradient {
+  background: linear-gradient(90deg, #00f5d4, #7c3aed, #06b6d4, #f0abfc, #00f5d4);
+  background-size: 300% 300%;
+  animation: borderRotate 6s ease infinite;
+}
+
+/* Typing cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+  color: var(--accent);
+}
